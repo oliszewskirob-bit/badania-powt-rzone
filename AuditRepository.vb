@@ -17,7 +17,11 @@ Public Module AuditRepository
 VALUES
 ($eid, $act, $field, $old, $new, $at, $by, $mach, $ver);"
 
-                cmd.Parameters.AddWithValue("$eid", eventId)
+                If eventId > 0 Then
+                    cmd.Parameters.AddWithValue("$eid", eventId)
+                Else
+                    cmd.Parameters.AddWithValue("$eid", DBNull.Value)
+                End If
                 cmd.Parameters.AddWithValue("$act", actionName)
                 cmd.Parameters.AddWithValue("$field", fieldName)
                 cmd.Parameters.AddWithValue("$old", If(oldValue, ""))
@@ -60,7 +64,7 @@ ORDER BY ChangedAt DESC;"
                         items.Add(New AuditLogItem With {
                             .Id = r.GetInt32(0),
                             .EventId = r.GetInt32(1),
-                            .ChangedAt = DateTime.Parse(r.GetString(2)).ToLocalTime(),
+                            .ChangedAt = ParseDateTimeOrMin(r.GetString(2)),
                             .ChangedBy = r.GetString(3),
                             .FieldName = r.GetString(4),
                             .OldValue = r.GetString(5),

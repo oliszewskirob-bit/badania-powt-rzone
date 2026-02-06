@@ -58,7 +58,16 @@ Public Class EventDetailsWindow
     e.CreatedBy,
     COALESCE(e.Outcome,'') AS Outcome,
     COALESCE(e.CorrectiveAction,'') AS CorrectiveAction,
-    COALESCE(e.Notes,'') AS Notes
+    COALESCE(e.Notes,'') AS Notes,
+    COALESCE(e.IsContrastExtravasation,0) AS IsContrastExtravasation,
+    COALESCE(e.ContrastCannula,'') AS ContrastCannula,
+    COALESCE(e.ContrastType,'') AS ContrastType,
+    COALESCE(e.ContrastFlow,'') AS ContrastFlow,
+    COALESCE(e.ContrastVolume,'') AS ContrastVolume,
+    COALESCE(e.ContrastVisible,0) AS ContrastVisible,
+    COALESCE(e.WardNotified,0) AS WardNotified,
+    COALESCE(e.PatientInstructions,0) AS PatientInstructions,
+    COALESCE(e.ContrastAdditionalInfo,'') AS ContrastAdditionalInfo
 FROM RepeatEvents e
 LEFT JOIN Reasons r ON r.Id = e.ReasonId
 WHERE e.Id = $id;"
@@ -76,7 +85,7 @@ WHERE e.Id = $id;"
                         IdBox.Text = r.GetInt32(0).ToString()
                         ModalityBox.Text = r.GetString(1)
                         DeviceBox.Text = r.GetString(2)
-                        EventTypeBox.Text = r.GetString(3)
+                        EventTypeBox.Text = EventTypeLabel(r.GetString(3))
 
                         PatientNameBox.Text = r.GetString(4)
                         PatientIdBox.Text = r.GetString(5)
@@ -92,7 +101,7 @@ WHERE e.Id = $id;"
                         ReasonOtherBox.Text = r.GetString(12)
 
                         Dim st = r.GetString(13)
-                        StatusBox.Text = st
+                        StatusBox.Text = StatusLabel(st)
 
                         DescBox.Text = r.GetString(14)
 
@@ -110,9 +119,34 @@ WHERE e.Id = $id;"
                         NotesBox.Text = r.GetString(19)
                         NotesSavedInfo.Text = ""
 
+                        Dim isExtravasation = (r.GetInt32(20) = 1)
+                        If ContrastSection IsNot Nothing Then
+                            ContrastSection.Visibility = If(isExtravasation, Visibility.Visible, Visibility.Collapsed)
+                        End If
+
+                        If isExtravasation Then
+                            ContrastCannulaBox.Text = r.GetString(21)
+                            ContrastTypeBox.Text = r.GetString(22)
+                            ContrastFlowBox.Text = r.GetString(23)
+                            ContrastVolumeBox.Text = r.GetString(24)
+                            ContrastVisibleBox.Text = YesNoLabel(r.GetInt32(25) = 1)
+                            WardNotifiedBox.Text = YesNoLabel(r.GetInt32(26) = 1)
+                            PatientInstructionsBox.Text = YesNoLabel(r.GetInt32(27) = 1)
+                            ContrastAdditionalInfoBox.Text = r.GetString(28)
+                        Else
+                            ContrastCannulaBox.Text = ""
+                            ContrastTypeBox.Text = ""
+                            ContrastFlowBox.Text = ""
+                            ContrastVolumeBox.Text = ""
+                            ContrastVisibleBox.Text = ""
+                            WardNotifiedBox.Text = ""
+                            PatientInstructionsBox.Text = ""
+                            ContrastAdditionalInfoBox.Text = ""
+                        End If
+
                         ' Nagłówek po prawej (opcjonalnie)
                         If HeaderRight IsNot Nothing Then
-                            HeaderRight.Text = $"Status: {st}"
+                            HeaderRight.Text = $"Status: {StatusLabel(st)}"
                         End If
                     End Using
                 End Using

@@ -25,7 +25,7 @@ Public Class ChangePasswordWindow
                 Return
             End If
 
-            UserRepository.ChangePassword(_session.Id, p1, _session.Username)
+            UserPasswordRepository.ChangeOwnPassword(_session.Id, p1, _session.Username)
 
             Me.DialogResult = True
             Me.Close()

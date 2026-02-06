@@ -19,7 +19,8 @@ Public Class UserCreateWindow
             Dim displayName = If(DisplayNameBox.Text, "").Trim()
 
             Dim roleItem = TryCast(RoleBox.SelectedItem, ComboBoxItem)
-            Dim role = If(roleItem Is Nothing, "user", roleItem.Content.ToString())
+            Dim roleTag = If(roleItem Is Nothing, "user", TryCast(roleItem.Tag, String))
+            Dim role = If(String.IsNullOrWhiteSpace(roleTag), "user", roleTag)
 
             Dim pass1 = PasswordBox.Password
             Dim pass2 = Password2Box.Password

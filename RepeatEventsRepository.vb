@@ -12,6 +12,8 @@ Public Module RepeatEventsRepository
  FirstPartDateTime, FixRequestedByDoctor, TechFirstPart, Nurse,
  ReasonId, ReasonOtherText,
  Status, Description,
+ IsContrastExtravasation, ContrastCannula, ContrastType, ContrastFlow, ContrastVolume,
+ ContrastVisible, WardNotified, PatientInstructions, ContrastAdditionalInfo,
  CreatedAt, CreatedBy)
 VALUES
 ($mod, $dev, $type,
@@ -19,6 +21,8 @@ VALUES
  $dt1, $doc, $tech, $nurse,
  $rid, $rother,
  'new', $desc,
+ $isExt, $can, $ctype, $flow, $vol,
+ $vis, $ward, $instr, $ainfo,
  $now, $by);
 SELECT last_insert_rowid();"
 
@@ -39,6 +43,16 @@ SELECT last_insert_rowid();"
                 cmd.Parameters.AddWithValue("$rother", If(String.IsNullOrWhiteSpace(ev.ReasonOtherText), DBNull.Value, ev.ReasonOtherText))
 
                 cmd.Parameters.AddWithValue("$desc", If(String.IsNullOrWhiteSpace(ev.Description), DBNull.Value, ev.Description))
+
+                cmd.Parameters.AddWithValue("$isExt", If(ev.IsContrastExtravasation, 1, 0))
+                cmd.Parameters.AddWithValue("$can", If(String.IsNullOrWhiteSpace(ev.ContrastCannula), DBNull.Value, ev.ContrastCannula))
+                cmd.Parameters.AddWithValue("$ctype", If(String.IsNullOrWhiteSpace(ev.ContrastType), DBNull.Value, ev.ContrastType))
+                cmd.Parameters.AddWithValue("$flow", If(String.IsNullOrWhiteSpace(ev.ContrastFlow), DBNull.Value, ev.ContrastFlow))
+                cmd.Parameters.AddWithValue("$vol", If(String.IsNullOrWhiteSpace(ev.ContrastVolume), DBNull.Value, ev.ContrastVolume))
+                cmd.Parameters.AddWithValue("$vis", If(ev.ContrastVisible.HasValue, If(ev.ContrastVisible.Value, 1, 0), DBNull.Value))
+                cmd.Parameters.AddWithValue("$ward", If(ev.WardNotified.HasValue, If(ev.WardNotified.Value, 1, 0), DBNull.Value))
+                cmd.Parameters.AddWithValue("$instr", If(ev.PatientInstructions.HasValue, If(ev.PatientInstructions.Value, 1, 0), DBNull.Value))
+                cmd.Parameters.AddWithValue("$ainfo", If(String.IsNullOrWhiteSpace(ev.ContrastAdditionalInfo), DBNull.Value, ev.ContrastAdditionalInfo))
 
                 cmd.Parameters.AddWithValue("$now", DateTime.UtcNow.ToString("o"))
                 cmd.Parameters.AddWithValue("$by", createdBy)
