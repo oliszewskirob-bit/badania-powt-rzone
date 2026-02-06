@@ -1,0 +1,268 @@
+﻿<Window x:Class="EventDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Szczegóły zgłoszenia" Height="640" Width="860"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <TextBlock FontSize="18" FontWeight="SemiBold" Text="Szczegóły zgłoszenia"/>
+            <TextBlock x:Name="HeaderRight"
+                       DockPanel.Dock="Right"
+                       VerticalAlignment="Center"
+                       Foreground="Gray"
+                       Text=""/>
+        </DockPanel>
+
+        <ScrollViewer Grid.Row="1" Margin="0,12,0,12" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="260"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- wiersze -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!--0-->
+                    <RowDefinition Height="Auto"/>
+                    <!--1-->
+                    <RowDefinition Height="Auto"/>
+                    <!--2-->
+                    <RowDefinition Height="Auto"/>
+                    <!--3-->
+                    <RowDefinition Height="Auto"/>
+                    <!--4-->
+                    <RowDefinition Height="Auto"/>
+                    <!--5-->
+                    <RowDefinition Height="Auto"/>
+                    <!--6-->
+                    <RowDefinition Height="Auto"/>
+                    <!--7-->
+                    <RowDefinition Height="Auto"/>
+                    <!--8-->
+                    <RowDefinition Height="Auto"/>
+                    <!--9-->
+                    <RowDefinition Height="Auto"/>
+                    <!--10-->
+                    <RowDefinition Height="Auto"/>
+                    <!--11-->
+                    <RowDefinition Height="Auto"/>
+                    <!--12-->
+                    <RowDefinition Height="Auto"/>
+                    <!--13-->
+                    <RowDefinition Height="Auto"/>
+                    <!--14-->
+                    <RowDefinition Height="Auto"/>
+                    <!--15-->
+                    <RowDefinition Height="Auto"/>
+                    <!--16-->
+                    <RowDefinition Height="Auto"/>
+                    <!--17-->
+                    <RowDefinition Height="Auto"/>
+                    <!--18-->
+                    <RowDefinition Height="Auto"/>
+                    <!--19-->
+                    <RowDefinition Height="Auto"/>
+                    <!--20-->
+                    <RowDefinition Height="Auto"/>
+                    <!--21-->
+                    <RowDefinition Height="Auto"/>
+                    <!--22-->
+
+                </Grid.RowDefinitions>
+
+                <!-- ID -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,6,10,6" Text="ID zgłoszenia"/>
+                <TextBox x:Name="IdBox" Grid.Row="0" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <!-- Modalność / Typ / Aparat -->
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,6,10,6" Text="Modalność"/>
+                <TextBox x:Name="ModalityBox" Grid.Row="1" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,6,10,6" Text="Typ zgłoszenia"/>
+                <TextBox x:Name="EventTypeBox" Grid.Row="2" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,6,10,6" Text="Aparat"/>
+                <TextBox x:Name="DeviceBox" Grid.Row="3" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <!-- Pacjent -->
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,6,10,6" Text="Imię i nazwisko pacjenta"/>
+                <TextBox x:Name="PatientNameBox" Grid.Row="4" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,6,10,6" Text="ID pacjenta"/>
+                <TextBox x:Name="PatientIdBox" Grid.Row="5" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,6,10,6" Text="Accession"/>
+                <TextBox x:Name="AccessionBox" Grid.Row="6" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <!-- Data i personel -->
+                <TextBlock Grid.Row="7" Grid.Column="0" Margin="0,6,10,6" Text="Data I części badania"/>
+                <TextBox x:Name="FirstPartBox" Grid.Row="7" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <TextBlock Grid.Row="8" Grid.Column="0" Margin="0,6,10,6" Text="Lekarz zlecający poprawę"/>
+                <TextBox x:Name="DoctorBox" Grid.Row="8" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <TextBlock Grid.Row="9" Grid.Column="0" Margin="0,6,10,6" Text="Elektroradiolog (I część)"/>
+                <TextBox x:Name="TechBox" Grid.Row="9" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <TextBlock Grid.Row="10" Grid.Column="0" Margin="0,6,10,6" Text="Pielęgniarka"/>
+                <TextBox x:Name="NurseBox" Grid.Row="10" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <!-- Powód -->
+                <TextBlock Grid.Row="11" Grid.Column="0" Margin="0,6,10,6" Text="Powód"/>
+                <TextBox x:Name="ReasonBox" Grid.Row="11" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <TextBlock Grid.Row="12" Grid.Column="0" Margin="0,6,10,6" Text="Doprecyzowanie (Inne)"/>
+                <TextBox x:Name="ReasonOtherBox" Grid.Row="12" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <!-- Status -->
+                <TextBlock Grid.Row="13" Grid.Column="0" Margin="0,6,10,6" Text="Status"/>
+                <TextBox x:Name="StatusBox" Grid.Row="13" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <!-- Opis -->
+                <TextBlock Grid.Row="14" Grid.Column="0" Margin="0,6,10,6" Text="Opis"/>
+                <TextBox x:Name="DescBox" Grid.Row="14" Grid.Column="1" Margin="0,6,0,6"
+                         AcceptsReturn="True" Height="120"
+                         TextWrapping="Wrap"
+                         IsReadOnly="True"/>
+
+                <!-- Utworzenie -->
+                <TextBlock Grid.Row="15" Grid.Column="0" Margin="0,6,10,6" Text="Utworzono"/>
+                <TextBox x:Name="CreatedBox" Grid.Row="15" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                <!-- Historia zmian -->
+                <TextBlock Grid.Row="16" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Historia zmian"/>
+                <DataGrid x:Name="AuditGrid"
+                          Grid.Row="16" Grid.Column="1"
+                          Margin="0,16,0,6"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          Height="180">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Kiedy" Binding="{Binding ChangedAt}" Width="160"/>
+                        <DataGridTextColumn Header="Kto" Binding="{Binding ChangedBy}" Width="140"/>
+                        <DataGridTextColumn Header="Co" Binding="{Binding FieldName}" Width="120"/>
+                        <DataGridTextColumn Header="Stare" Binding="{Binding OldValue}" Width="120"/>
+                        <DataGridTextColumn Header="Nowe" Binding="{Binding NewValue}" Width="120"/>
+                        <DataGridTextColumn Header="Komputer" Binding="{Binding Machine}" Width="140"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Notatka -->
+                <TextBlock Grid.Row="17" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Notatka / komentarz"/>
+                <StackPanel Grid.Row="17" Grid.Column="1" Margin="0,16,0,6">
+
+                    <TextBox x:Name="NotesBox"
+                             Height="90"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             TextChanged="NotesBox_TextChanged"
+                             MouseDoubleClick="NotesBox_MouseDoubleClick"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                        <Button Content="Zapisz notatkę"
+                                Width="140" Height="32"
+                                Click="SaveNotes_Click"/>
+
+                        <TextBlock x:Name="NotesSavedInfo"
+                                   Margin="12,6,0,0"
+                                   Foreground="Gray"
+                                   Text=""/>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <!-- Outcome -->
+                <TextBlock Grid.Row="19" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Outcome (wynik / rezultat)"/>
+                <StackPanel Grid.Row="19" Grid.Column="1" Margin="0,16,0,6">
+                    <TextBox x:Name="OutcomeBox"
+             Height="70"
+             TextWrapping="Wrap"
+             AcceptsReturn="True"
+             VerticalScrollBarVisibility="Auto"
+             TextChanged="Outcome_TextChanged"/>
+
+                    <TextBlock x:Name="OutcomeInfo"
+               Margin="0,6,0,0"
+               Foreground="Gray"
+               Text=""/>
+                </StackPanel>
+
+                <!-- Corrective Action -->
+                <TextBlock Grid.Row="20" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Działania korygujące"/>
+                <StackPanel Grid.Row="20" Grid.Column="1" Margin="0,16,0,6">
+                    <TextBox x:Name="CorrectiveActionBox"
+             Height="70"
+             TextWrapping="Wrap"
+             AcceptsReturn="True"
+             VerticalScrollBarVisibility="Auto"
+             TextChanged="CorrectiveAction_TextChanged"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                        <Button Content="Zapisz (Outcome + Działania)"
+                Width="210" Height="32"
+                Click="SaveOutcomeCorrective_Click"/>
+
+                        <TextBlock x:Name="OutcomeSavedInfo"
+                   Margin="12,6,0,0"
+                   Foreground="Gray"
+                   Text=""/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- ZAŁĄCZNIKI -->
+                <DockPanel Grid.Row="21" Grid.ColumnSpan="2" Margin="0,16,0,6">
+                    <TextBlock FontWeight="SemiBold" Text="Załączniki"/>
+                    <Button Content="Dodaj plik"
+            DockPanel.Dock="Right"
+            Width="120"
+            Height="30"
+            Click="AddAttachment_Click"/>
+                </DockPanel>
+
+                <DataGrid x:Name="AttachmentsGrid"
+          Grid.Row="22" Grid.ColumnSpan="2"
+          AutoGenerateColumns="False"
+          IsReadOnly="True"
+          CanUserAddRows="False"
+          Height="180"
+          MouseDoubleClick="Attachments_DoubleClick">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nazwa" Binding="{Binding FileName}" Width="*"/>
+                        <DataGridTextColumn Header="Rozmiar" Binding="{Binding SizeText}" Width="120"/>
+                        <DataGridTextColumn Header="Data" Binding="{Binding ModifiedText}" Width="180"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="W trakcie"
+                    Width="120"
+                    Margin="0,0,8,0"
+                    Tag="in_progress"
+                    Click="SetStatus_Click"/>
+
+            <Button Content="Zamknij zgłoszenie"
+                    Width="160"
+                    Margin="0,0,8,0"
+                    Tag="closed"
+                    Click="SetStatus_Click"/>
+
+            <Button Content="Zamknij okno"
+                    Width="120"
+                    Click="Close_Click"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

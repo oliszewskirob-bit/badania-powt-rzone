@@ -1,0 +1,58 @@
+﻿<Window x:Class="UserCreateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dodaj konto" Height="360" Width="520"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
+                   FontSize="16" FontWeight="SemiBold"
+                   Text="Nowy użytkownik"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,14,10,6" Text="Login (username)"/>
+        <TextBox x:Name="UsernameBox" Grid.Row="1" Grid.Column="1" Margin="0,14,0,6"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,6,10,6" Text="Imię i nazwisko"/>
+        <TextBox x:Name="DisplayNameBox" Grid.Row="2" Grid.Column="1" Margin="0,6,0,6"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,6,10,6" Text="Rola"/>
+        <ComboBox x:Name="RoleBox" Grid.Row="3" Grid.Column="1" Margin="0,6,0,6" SelectedIndex="0">
+            <ComboBoxItem Content="user" IsSelected="True"/>
+            <ComboBoxItem Content="admin"/>
+        </ComboBox>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,6,10,6" Text="Hasło"/>
+        <PasswordBox x:Name="PasswordBox" Grid.Row="4" Grid.Column="1" Margin="0,6,0,6"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,6,10,6" Text="Powtórz hasło"/>
+        <PasswordBox x:Name="Password2Box" Grid.Row="5" Grid.Column="1" Margin="0,6,0,6"/>
+
+        <TextBlock x:Name="ErrorText"
+                   Grid.Row="6" Grid.ColumnSpan="2"
+                   Foreground="Tomato"
+                   Margin="0,8,0,0"
+                   Text=""/>
+
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,16,0,0">
+            <Button Content="Utwórz" Width="120" Margin="0,0,8,0" Click="Create_Click"/>
+            <Button Content="Anuluj" Width="120" Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,183 @@
+﻿<Window x:Class="MainWindow"
+       
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="QT/MR Tracker" Height="520" Width="980"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Góra -->
+        <DockPanel Grid.Row="0" LastChildFill="True">
+
+            <!-- prawa strona -->
+            <TextBlock x:Name="InfoText"
+                       DockPanel.Dock="Right"
+                       VerticalAlignment="Center"
+                       Foreground="Gray"
+                       Text=""/>
+            <Button x:Name="DeleteBtn"
+        Content="Usuń"
+        Width="90"
+        Height="34"
+        Margin="12,0,0,0"
+        Click="Delete_Click"/>
+
+            <!-- lewa strona -->
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Dodaj zgłoszenie"
+                        Width="160" Height="34"
+                        Margin="0,0,12,0"
+                        Click="Add_Click"/>
+                <Button Content="Użytkownicy"
+                         Width="120" Height="34" Margin="0,0,12,0"
+                         Click="Users_Click"/>
+
+
+                <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="Filtr:"/>
+                <ComboBox x:Name="FilterBox" Width="140" SelectionChanged="Filter_Changed">
+                    <ComboBoxItem Content="ALL" IsSelected="True"/>
+                    <ComboBoxItem Content="CT"/>
+                    <ComboBoxItem Content="MR"/>
+                </ComboBox>
+
+                <TextBlock VerticalAlignment="Center" Margin="16,0,8,0" Text="Status:"/>
+                <ComboBox x:Name="StatusFilterBox"
+          Width="140"
+          SelectionChanged="Filter_Changed">
+                    <ComboBoxItem Content="ALL" IsSelected="True"/>
+                    <ComboBoxItem Content="new"/>
+                    <ComboBoxItem Content="in_progress"/>
+                    <ComboBoxItem Content="closed"/>
+                </ComboBox>
+
+                <TextBlock VerticalAlignment="Center" Margin="16,0,8,0" Text="Szukaj:"/>
+                <TextBox x:Name="SearchBox"
+         Width="200"
+         TextChanged="Search_TextChanged"
+         ToolTip="Imię, nazwisko lub ID pacjenta"/>
+
+
+                <Button Content="Odśwież"
+                        Width="110" Height="34"
+                        Margin="12,0,0,0"
+                        Click="Refresh_Click"/>
+                <Button Content="Wyczyść"
+        Width="110" Height="34"
+        Margin="12,0,0,0"
+        Click="Clear_Click"/>
+
+                <Button Content="Eksport CSV" Width="120" Height="34" Margin="12,0,0,0" Click="Export_Click"/>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Margin="0,44,0,0" Orientation="Horizontal">
+                <TextBlock x:Name="CountAllText" Margin="0,0,16,0" Foreground="Gray" />
+                <TextBlock x:Name="CountNewText" Margin="0,0,16,0" Foreground="Gray" />
+                <TextBlock x:Name="CountInProgressText" Margin="0,0,16,0" Foreground="Gray" />
+                <TextBlock x:Name="CountClosedText" Margin="0,0,16,0" Foreground="Gray" />
+            </StackPanel>
+
+
+        </DockPanel>
+
+        <!-- Tabela -->
+        <DataGrid x:Name="EventsGrid"
+                  Grid.Row="1"
+                  Margin="0,12,0,12"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  SelectionMode="Single"
+                  MouseDoubleClick="Grid_DoubleClick">
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding Status}" Value="new">
+                            <Setter Property="Background" Value="#FFF6D6D6"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Status}" Value="in_progress">
+                            <Setter Property="Background" Value="#FFFFF3CD"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Status}" Value="closed">
+                            <Setter Property="Background" Value="#FFD4EDDA"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Data I części"
+                    Binding="{Binding FirstPartDateTime, StringFormat=\{0:yyyy-MM-dd HH:mm\}}"
+                    Width="150"/>
+
+                <DataGridTextColumn Header="Mod."
+                                    Binding="{Binding Modality}"
+                                    Width="60"/>
+                <DataGridTextColumn Header="Typ"
+                                    Binding="{Binding EventType}"
+                                    Width="90"/>
+                <DataGridTextColumn Header="Aparat"
+                                    Binding="{Binding Device}"
+                                    Width="90"/>
+                <DataGridTextColumn Header="Pacjent"
+                                    Binding="{Binding PatientName}"
+                                    Width="220"/>
+                <DataGridTextColumn Header="ID"
+                                    Binding="{Binding PatientId}"
+                                    Width="130"/>
+                <DataGridTextColumn Header="Powód"
+                                    Binding="{Binding ReasonName}"
+                                    Width="220"/>
+                <DataGridTextColumn Header="Inne"
+                                    Binding="{Binding ReasonOtherText}"
+                                    Width="170"/>
+                <DataGridTextColumn Header="Status"
+                                    Binding="{Binding Status}"
+                                    Width="90"/>
+                <DataGridTextColumn Header="Utw."
+                                    Binding="{Binding CreatedAt, StringFormat=\{0:yyyy-MM-dd HH:mm\}}"
+                    Width="150"/>
+               
+                <DataGridTextColumn Header="Kto"
+                                    Binding="{Binding CreatedBy}"
+                                    Width="120"/>
+                <DataGridTemplateColumn Header="Akcje" Width="220">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="W trakcie" Width="70" Margin="0,0,6,0"
+                        Tag="{Binding Id}" Click="SetInProgress_Row_Click"/>
+                                <Button Content="Zamknij" Width="60" Margin="0,0,6,0"
+                        Tag="{Binding Id}" Click="SetClosed_Row_Click"/>
+                                <Button Content="Notatka" Width="70"
+                        Tag="{Binding Id}" Click="QuickNote_Row_Click"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Dół -->
+        <TextBlock Grid.Row="2"
+                   Foreground="Gray"
+                   Text="Tip: dwuklik na wierszu – w następnym kroku zrobimy podgląd/edycję/statusy."/>
+    </Grid>
+
+</Window>
