@@ -173,6 +173,18 @@ WHERE NOT EXISTS (
         End If
 
         EnsureColumn(con, "AuditLog", "EventId", "INTEGER NULL")
+
+        If TableHasColumn(con, "AuditLog", "EntityName") OrElse TableHasColumn(con, "AuditLog", "ChangesJson") Then
+            Dim legacyName = $"AuditLog_Legacy_{DateTime.UtcNow:yyyyMMddHHmmss}"
+            Using cmd = con.CreateCommand()
+                cmd.CommandText = $"ALTER TABLE AuditLog RENAME TO {legacyName};"
+                cmd.ExecuteNonQuery()
+            End Using
+            CreateAuditLogTable(con)
+            Return
+        End If
+
+        EnsureColumn(con, "AuditLog", "EventId", "INTEGER NOT NULL DEFAULT 0")
         EnsureColumn(con, "AuditLog", "Action", "TEXT NOT NULL DEFAULT ''")
         EnsureColumn(con, "AuditLog", "FieldName", "TEXT NOT NULL DEFAULT ''")
         EnsureColumn(con, "AuditLog", "OldValue", "TEXT NOT NULL DEFAULT ''")
@@ -189,6 +201,7 @@ WHERE NOT EXISTS (
 "CREATE TABLE IF NOT EXISTS AuditLog (
   Id INTEGER PRIMARY KEY AUTOINCREMENT,
   EventId INTEGER NULL,
+  EventId INTEGER NOT NULL,
   Action TEXT NOT NULL,
   FieldName TEXT NOT NULL,
   OldValue TEXT NOT NULL,
