@@ -23,7 +23,7 @@
                    FontSize="16" FontWeight="SemiBold"
                    Text="Nowy użytkownik"/>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,14,10,6" Text="Login (username)"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,14,10,6" Text="Login"/>
         <TextBox x:Name="UsernameBox" Grid.Row="1" Grid.Column="1" Margin="0,14,0,6"/>
 
         <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,6,10,6" Text="Imię i nazwisko"/>
@@ -31,8 +31,8 @@
 
         <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,6,10,6" Text="Rola"/>
         <ComboBox x:Name="RoleBox" Grid.Row="3" Grid.Column="1" Margin="0,6,0,6" SelectedIndex="0">
-            <ComboBoxItem Content="user" IsSelected="True"/>
-            <ComboBoxItem Content="admin"/>
+            <ComboBoxItem Content="Użytkownik" Tag="user" IsSelected="True"/>
+            <ComboBoxItem Content="Administrator" Tag="admin"/>
         </ComboBox>
 
         <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,6,10,6" Text="Hasło"/>

@@ -25,7 +25,7 @@ ORDER BY ChangedAt DESC;"
                 Using r = cmd.ExecuteReader()
                     While r.Read()
                         Dim atStr = r.GetString(0)
-                        Dim atDt = DateTime.Parse(atStr, Nothing, DateTimeStyles.RoundtripKind)
+                        Dim atDt = ParseDateTimeOrMin(atStr, False)
 
                         items.Add(New AuditItem With {
                             .ChangedAt = atDt.ToLocalTime(),

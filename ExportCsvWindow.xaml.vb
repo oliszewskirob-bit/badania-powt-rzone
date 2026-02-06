@@ -19,12 +19,20 @@ Public Class ExportCsvWindow
     Private Function SelectedModality() As String
         Dim item = TryCast(ModalityBox.SelectedItem, ComboBoxItem)
         If item Is Nothing Then Return "ALL"
+        Dim tagValue = TryCast(item.Tag, String)
+        If Not String.IsNullOrWhiteSpace(tagValue) Then
+            Return tagValue
+        End If
         Return item.Content.ToString()
     End Function
 
     Private Function SelectedStatus() As String
         Dim item = TryCast(StatusBox.SelectedItem, ComboBoxItem)
         If item Is Nothing Then Return "ALL"
+        Dim tagValue = TryCast(item.Tag, String)
+        If Not String.IsNullOrWhiteSpace(tagValue) Then
+            Return tagValue
+        End If
         Return item.Content.ToString()
     End Function
 
@@ -67,6 +75,8 @@ Public Class ExportCsvWindow
                 "ReasonId", "ReasonName", "ReasonOtherText",
                 "FixDateTime", "ExtraMinutes",
                 "Status", "Outcome", "Description", "CorrectiveAction",
+                "IsContrastExtravasation", "ContrastCannula", "ContrastType", "ContrastFlow", "ContrastVolume",
+                "ContrastVisible", "WardNotified", "PatientInstructions", "ContrastAdditionalInfo",
                 "CreatedAt", "CreatedBy", "UpdatedAt", "UpdatedBy",
                 "ClosedAt", "ClosedBy",
                 "Notes"
@@ -88,7 +98,7 @@ Public Class ExportCsvWindow
                             MessageBoxImage.Information)
 
         Catch ex As Exception
-            MessageBox.Show("Blad eksportu:" & vbCrLf & ex.ToString())
+            MessageBox.Show("Błąd eksportu:" & vbCrLf & ex.ToString())
         End Try
     End Sub
 

@@ -9,7 +9,8 @@ End Class
 Public Class RepeatEventCreate
     Public Property Modality As String            ' "CT" / "MR"
     Public Property Device As String              ' np. "TK1", "MR2" - na razie ręcznie
-    Public Property EventType As String           ' "repeat" / "supplement"
+    Public Property EventType As String           ' "repeat" / "supplement" / "contrast_extravasation"
+    Public Property IsContrastExtravasation As Boolean
 
     Public Property PatientName As String
     Public Property PatientId As String
@@ -24,12 +25,22 @@ Public Class RepeatEventCreate
     Public Property ReasonOtherText As String
 
     Public Property Description As String
+
+    Public Property ContrastCannula As String
+    Public Property ContrastType As String
+    Public Property ContrastFlow As String
+    Public Property ContrastVolume As String
+    Public Property ContrastVisible As Boolean?
+    Public Property WardNotified As Boolean?
+    Public Property PatientInstructions As Boolean?
+    Public Property ContrastAdditionalInfo As String
 End Class
 
 Public Class RepeatEventListItem
     Public Property Id As Integer
     Public Property Modality As String
     Public Property EventType As String
+    Public Property EventTypeLabel As String
     Public Property Device As String
 
     Public Property PatientName As String
@@ -41,14 +52,18 @@ Public Class RepeatEventListItem
     Public Property ReasonOtherText As String
 
     Public Property Status As String
+    Public Property StatusLabel As String
     Public Property CreatedAt As DateTime
     Public Property CreatedBy As String
+    Public Property IsContrastExtravasation As Boolean
 End Class
 
 Public Class RepeatEventDetails
     Public Property Id As Integer
     Public Property Modality As String
     Public Property EventType As String
+    Public Property EventTypeLabel As String
+    Public Property IsContrastExtravasation As Boolean
     Public Property Device As String
 
     Public Property PatientName As String
@@ -64,10 +79,20 @@ Public Class RepeatEventDetails
     Public Property ReasonOtherText As String
 
     Public Property Status As String
+    Public Property StatusLabel As String
     Public Property Description As String
 
     Public Property CreatedAt As DateTime
     Public Property CreatedBy As String
+
+    Public Property ContrastCannula As String
+    Public Property ContrastType As String
+    Public Property ContrastFlow As String
+    Public Property ContrastVolume As String
+    Public Property ContrastVisible As Boolean?
+    Public Property WardNotified As Boolean?
+    Public Property PatientInstructions As Boolean?
+    Public Property ContrastAdditionalInfo As String
 End Class
 
 Public Class AuditItem

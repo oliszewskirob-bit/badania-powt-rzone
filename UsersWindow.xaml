@@ -23,7 +23,7 @@
                   IsReadOnly="True"
                   CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="150"/>
+                <DataGridTextColumn Header="Login" Binding="{Binding Username}" Width="150"/>
                 <DataGridTextColumn Header="Imię i nazwisko" Binding="{Binding DisplayName}" Width="220"/>
                 <DataGridTextColumn Header="Rola" Binding="{Binding Role}" Width="90"/>
                 <DataGridCheckBoxColumn Header="Aktywny" Binding="{Binding IsActive}" Width="80"/>

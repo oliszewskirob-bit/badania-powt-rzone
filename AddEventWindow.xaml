@@ -1,7 +1,7 @@
 ﻿<Window x:Class="AddEventWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Dodaj zgłoszenie" Height="560" Width="760"
+        Title="Dodaj zgłoszenie" Height="720" Width="760"
         WindowStartupLocation="CenterOwner">
     <Grid Margin="16">
         <Grid.RowDefinitions>
@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock FontSize="18" FontWeight="SemiBold"
-                   Text="Nowe zgłoszenie powtórzenia / uzupełnienia"/>
+                   Text="Nowe zgłoszenie powtórzenia / uzupełnienia / wynaczynienia kontrastu"/>
 
         <ScrollViewer Grid.Row="1" Margin="0,12,0,12" VerticalScrollBarVisibility="Auto">
             <Grid>
@@ -20,7 +20,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- 13 wierszy (0..12) -->
+                <!-- 14 wierszy (0..13) -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <!--0-->
@@ -48,6 +48,8 @@
                     <!--11-->
                     <RowDefinition Height="Auto"/>
                     <!--12-->
+                    <RowDefinition Height="Auto"/>
+                    <!--13-->
                 </Grid.RowDefinitions>
 
                 <!-- Modalność -->
@@ -59,9 +61,10 @@
 
                 <!-- Typ -->
                 <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,6,10,6" Text="Typ zgłoszenia"/>
-                <ComboBox x:Name="EventTypeBox" Grid.Row="1" Grid.Column="1" Margin="0,6,0,6" Width="220">
-                    <ComboBoxItem Content="repeat" IsSelected="True"/>
-                    <ComboBoxItem Content="supplement"/>
+                <ComboBox x:Name="EventTypeBox" Grid.Row="1" Grid.Column="1" Margin="0,6,0,6" Width="240">
+                    <ComboBoxItem Content="Powtórzenie" Tag="repeat" IsSelected="True"/>
+                    <ComboBoxItem Content="Uzupełnienie" Tag="supplement"/>
+                    <ComboBoxItem Content="Wynaczynienie kontrastu" Tag="contrast_extravasation"/>
                 </ComboBox>
 
                 <!-- Aparat -->
@@ -114,7 +117,7 @@
 
 
                 <!-- Powód -->
-                <TextBlock Grid.Row="10" Grid.Column="0" Margin="0,6,10,6" Text="Powód powtórzenia *"/>
+                <TextBlock Grid.Row="10" Grid.Column="0" Margin="0,6,10,6" Text="Powód *"/>
                 <ComboBox x:Name="ReasonBox" Grid.Row="10" Grid.Column="1" Margin="0,6,0,6"/>
 
                 <TextBlock Grid.Row="11" Grid.Column="0" Margin="0,6,10,6" Text="Doprecyzowanie (gdy Inne)"/>
@@ -124,6 +127,59 @@
                 <TextBlock Grid.Row="12" Grid.Column="0" Margin="0,6,10,6" Text="Opis (opcjonalnie)"/>
                 <TextBox x:Name="DescBox" Grid.Row="12" Grid.Column="1" Margin="0,6,0,6"
                          AcceptsReturn="True" Height="90" TextWrapping="Wrap"/>
+
+                <GroupBox x:Name="ContrastSection" Grid.Row="13" Grid.ColumnSpan="2" Header="Wynaczynienie kontrastu" Margin="0,12,0,0" Visibility="Collapsed">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="240"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,6,10,6" Text="Jaki wenflon *"/>
+                        <TextBox x:Name="ContrastCannulaBox" Grid.Row="0" Grid.Column="1" Margin="0,6,0,6"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,6,10,6" Text="Jaki kontrast *"/>
+                        <TextBox x:Name="ContrastTypeBox" Grid.Row="1" Grid.Column="1" Margin="0,6,0,6"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,6,10,6" Text="Jaki przepływ *"/>
+                        <TextBox x:Name="ContrastFlowBox" Grid.Row="2" Grid.Column="1" Margin="0,6,0,6"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,6,10,6" Text="Ile kontrastu *"/>
+                        <TextBox x:Name="ContrastVolumeBox" Grid.Row="3" Grid.Column="1" Margin="0,6,0,6"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,6,10,6" Text="Kontrast widoczny w badaniu *"/>
+                        <ComboBox x:Name="ContrastVisibleBox" Grid.Row="4" Grid.Column="1" Margin="0,6,0,6" Width="160">
+                            <ComboBoxItem Content="Tak"/>
+                            <ComboBoxItem Content="Nie"/>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,6,10,6" Text="Poinformowano oddział *"/>
+                        <ComboBox x:Name="WardNotifiedBox" Grid.Row="5" Grid.Column="1" Margin="0,6,0,6" Width="160">
+                            <ComboBoxItem Content="Tak"/>
+                            <ComboBoxItem Content="Nie"/>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,6,10,6" Text="Przekazano pacjentowi zalecenia *"/>
+                        <ComboBox x:Name="PatientInstructionsBox" Grid.Row="6" Grid.Column="1" Margin="0,6,0,6" Width="160">
+                            <ComboBoxItem Content="Tak"/>
+                            <ComboBoxItem Content="Nie"/>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Margin="0,6,10,6" Text="Dodatkowe informacje"/>
+                        <TextBox x:Name="ContrastAdditionalInfoBox" Grid.Row="7" Grid.Column="1" Margin="0,6,0,6"
+                                 AcceptsReturn="True" Height="70" TextWrapping="Wrap"/>
+                    </Grid>
+                </GroupBox>
             </Grid>
         </ScrollViewer>
 
