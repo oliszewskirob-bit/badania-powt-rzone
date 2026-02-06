@@ -17,7 +17,11 @@ Public Module AuditRepository
 VALUES
 ($eid, $act, $field, $old, $new, $at, $by, $mach, $ver);"
 
-                cmd.Parameters.AddWithValue("$eid", eventId)
+                If eventId > 0 Then
+                    cmd.Parameters.AddWithValue("$eid", eventId)
+                Else
+                    cmd.Parameters.AddWithValue("$eid", DBNull.Value)
+                End If
                 cmd.Parameters.AddWithValue("$act", actionName)
                 cmd.Parameters.AddWithValue("$field", fieldName)
                 cmd.Parameters.AddWithValue("$old", If(oldValue, ""))

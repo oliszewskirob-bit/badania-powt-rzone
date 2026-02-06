@@ -156,6 +156,23 @@ WHERE NOT EXISTS (
             CreateAuditLogTable(con)
             Return
         End If
+        Dim tableSql = GetTableSql(con, "AuditLog")
+
+        If TableHasColumn(con, "AuditLog", "EntityName") OrElse TableHasColumn(con, "AuditLog", "ChangesJson") Then
+            Dim legacyName = $"AuditLog_Legacy_{DateTime.UtcNow:yyyyMMddHHmmss}"
+            RenameTable(con, "AuditLog", legacyName)
+            MigrateAuditLogTable(con, legacyName)
+            Return
+        End If
+
+        If tableSql.Contains("EventId INTEGER NOT NULL", StringComparison.OrdinalIgnoreCase) Then
+            Dim legacyName = $"AuditLog_Legacy_{DateTime.UtcNow:yyyyMMddHHmmss}"
+            RenameTable(con, "AuditLog", legacyName)
+            MigrateAuditLogTable(con, legacyName)
+            Return
+        End If
+
+        EnsureColumn(con, "AuditLog", "EventId", "INTEGER NULL")
 
         If TableHasColumn(con, "AuditLog", "EntityName") OrElse TableHasColumn(con, "AuditLog", "ChangesJson") Then
             Dim legacyName = $"AuditLog_Legacy_{DateTime.UtcNow:yyyyMMddHHmmss}"
@@ -183,6 +200,7 @@ WHERE NOT EXISTS (
             cmd.CommandText =
 "CREATE TABLE IF NOT EXISTS AuditLog (
   Id INTEGER PRIMARY KEY AUTOINCREMENT,
+  EventId INTEGER NULL,
   EventId INTEGER NOT NULL,
   Action TEXT NOT NULL,
   FieldName TEXT NOT NULL,
@@ -194,6 +212,35 @@ WHERE NOT EXISTS (
   AppVersion TEXT NOT NULL,
   FOREIGN KEY(EventId) REFERENCES RepeatEvents(Id)
 );"
+            cmd.ExecuteNonQuery()
+        End Using
+    End Sub
+
+    Private Sub RenameTable(con As SqliteConnection, fromName As String, toName As String)
+        Using cmd = con.CreateCommand()
+            cmd.CommandText = $"ALTER TABLE {fromName} RENAME TO {toName};"
+            cmd.ExecuteNonQuery()
+        End Using
+    End Sub
+
+    Private Sub MigrateAuditLogTable(con As SqliteConnection, legacyName As String)
+        CreateAuditLogTable(con)
+
+        Dim newColumns As New List(Of String) From {
+            "Id", "EventId", "Action", "FieldName", "OldValue", "NewValue",
+            "ChangedAt", "ChangedBy", "Machine", "AppVersion"
+        }
+
+        Dim legacyColumns = GetTableColumns(con, legacyName)
+        Dim columnsToCopy = newColumns.Where(Function(c) legacyColumns.Contains(c)).ToList()
+
+        If columnsToCopy.Count = 0 Then
+            Return
+        End If
+
+        Dim columnList = String.Join(", ", columnsToCopy)
+        Using cmd = con.CreateCommand()
+            cmd.CommandText = $"INSERT INTO AuditLog ({columnList}) SELECT {columnList} FROM {legacyName};"
             cmd.ExecuteNonQuery()
         End Using
     End Sub
