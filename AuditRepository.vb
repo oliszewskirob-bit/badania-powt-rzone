@@ -60,7 +60,7 @@ ORDER BY ChangedAt DESC;"
                         items.Add(New AuditLogItem With {
                             .Id = r.GetInt32(0),
                             .EventId = r.GetInt32(1),
-                            .ChangedAt = DateTime.Parse(r.GetString(2)).ToLocalTime(),
+                            .ChangedAt = ParseDateTimeOrMin(r.GetString(2)),
                             .ChangedBy = r.GetString(3),
                             .FieldName = r.GetString(4),
                             .OldValue = r.GetString(5),

@@ -58,6 +58,8 @@
                     <RowDefinition Height="Auto"/>
                     <!--13-->
                     <RowDefinition Height="Auto"/>
+                    <!--13-->
+                    <RowDefinition Height="Auto"/>
                     <!--14-->
                     <RowDefinition Height="Auto"/>
                     <!--15-->
@@ -122,25 +124,69 @@
                 <TextBlock Grid.Row="12" Grid.Column="0" Margin="0,6,10,6" Text="Doprecyzowanie (Inne)"/>
                 <TextBox x:Name="ReasonOtherBox" Grid.Row="12" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
 
+                <GroupBox x:Name="ContrastSection" Grid.Row="13" Grid.ColumnSpan="2" Header="Wynaczynienie kontrastu" Margin="0,8,0,0" Visibility="Collapsed">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="260"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,6,10,6" Text="Jaki wenflon"/>
+                        <TextBox x:Name="ContrastCannulaBox" Grid.Row="0" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,6,10,6" Text="Jaki kontrast"/>
+                        <TextBox x:Name="ContrastTypeBox" Grid.Row="1" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,6,10,6" Text="Jaki przepływ"/>
+                        <TextBox x:Name="ContrastFlowBox" Grid.Row="2" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,6,10,6" Text="Ile kontrastu"/>
+                        <TextBox x:Name="ContrastVolumeBox" Grid.Row="3" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,6,10,6" Text="Kontrast widoczny w badaniu"/>
+                        <TextBox x:Name="ContrastVisibleBox" Grid.Row="4" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,6,10,6" Text="Poinformowano oddział"/>
+                        <TextBox x:Name="WardNotifiedBox" Grid.Row="5" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,6,10,6" Text="Przekazano pacjentowi zalecenia"/>
+                        <TextBox x:Name="PatientInstructionsBox" Grid.Row="6" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Margin="0,6,10,6" Text="Dodatkowe informacje"/>
+                        <TextBox x:Name="ContrastAdditionalInfoBox" Grid.Row="7" Grid.Column="1" Margin="0,6,0,6"
+                                 AcceptsReturn="True" Height="80" TextWrapping="Wrap" IsReadOnly="True"/>
+                    </Grid>
+                </GroupBox>
+
                 <!-- Status -->
-                <TextBlock Grid.Row="13" Grid.Column="0" Margin="0,6,10,6" Text="Status"/>
-                <TextBox x:Name="StatusBox" Grid.Row="13" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+                <TextBlock Grid.Row="14" Grid.Column="0" Margin="0,6,10,6" Text="Status"/>
+                <TextBox x:Name="StatusBox" Grid.Row="14" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
 
                 <!-- Opis -->
-                <TextBlock Grid.Row="14" Grid.Column="0" Margin="0,6,10,6" Text="Opis"/>
-                <TextBox x:Name="DescBox" Grid.Row="14" Grid.Column="1" Margin="0,6,0,6"
+                <TextBlock Grid.Row="15" Grid.Column="0" Margin="0,6,10,6" Text="Opis"/>
+                <TextBox x:Name="DescBox" Grid.Row="15" Grid.Column="1" Margin="0,6,0,6"
                          AcceptsReturn="True" Height="120"
                          TextWrapping="Wrap"
                          IsReadOnly="True"/>
 
                 <!-- Utworzenie -->
-                <TextBlock Grid.Row="15" Grid.Column="0" Margin="0,6,10,6" Text="Utworzono"/>
-                <TextBox x:Name="CreatedBox" Grid.Row="15" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
+                <TextBlock Grid.Row="16" Grid.Column="0" Margin="0,6,10,6" Text="Utworzono"/>
+                <TextBox x:Name="CreatedBox" Grid.Row="16" Grid.Column="1" Margin="0,6,0,6" IsReadOnly="True"/>
 
                 <!-- Historia zmian -->
-                <TextBlock Grid.Row="16" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Historia zmian"/>
+                <TextBlock Grid.Row="17" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Historia zmian"/>
                 <DataGrid x:Name="AuditGrid"
-                          Grid.Row="16" Grid.Column="1"
+                          Grid.Row="17" Grid.Column="1"
                           Margin="0,16,0,6"
                           AutoGenerateColumns="False"
                           IsReadOnly="True"
@@ -157,8 +203,8 @@
                 </DataGrid>
 
                 <!-- Notatka -->
-                <TextBlock Grid.Row="17" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Notatka / komentarz"/>
-                <StackPanel Grid.Row="17" Grid.Column="1" Margin="0,16,0,6">
+                <TextBlock Grid.Row="18" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Notatka / komentarz"/>
+                <StackPanel Grid.Row="18" Grid.Column="1" Margin="0,16,0,6">
 
                     <TextBox x:Name="NotesBox"
                              Height="90"
@@ -182,8 +228,8 @@
                 </StackPanel>
 
                 <!-- Outcome -->
-                <TextBlock Grid.Row="19" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Outcome (wynik / rezultat)"/>
-                <StackPanel Grid.Row="19" Grid.Column="1" Margin="0,16,0,6">
+                <TextBlock Grid.Row="20" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Wynik / rezultat"/>
+                <StackPanel Grid.Row="20" Grid.Column="1" Margin="0,16,0,6">
                     <TextBox x:Name="OutcomeBox"
              Height="70"
              TextWrapping="Wrap"
@@ -198,8 +244,8 @@
                 </StackPanel>
 
                 <!-- Corrective Action -->
-                <TextBlock Grid.Row="20" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Działania korygujące"/>
-                <StackPanel Grid.Row="20" Grid.Column="1" Margin="0,16,0,6">
+                <TextBlock Grid.Row="21" Grid.Column="0" Margin="0,16,10,6" FontWeight="SemiBold" Text="Działania korygujące"/>
+                <StackPanel Grid.Row="21" Grid.Column="1" Margin="0,16,0,6">
                     <TextBox x:Name="CorrectiveActionBox"
              Height="70"
              TextWrapping="Wrap"
@@ -208,7 +254,7 @@
              TextChanged="CorrectiveAction_TextChanged"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                        <Button Content="Zapisz (Outcome + Działania)"
+                        <Button Content="Zapisz (wynik + działania)"
                 Width="210" Height="32"
                 Click="SaveOutcomeCorrective_Click"/>
 
@@ -220,7 +266,7 @@
                 </StackPanel>
 
                 <!-- ZAŁĄCZNIKI -->
-                <DockPanel Grid.Row="21" Grid.ColumnSpan="2" Margin="0,16,0,6">
+                <DockPanel Grid.Row="22" Grid.ColumnSpan="2" Margin="0,16,0,6">
                     <TextBlock FontWeight="SemiBold" Text="Załączniki"/>
                     <Button Content="Dodaj plik"
             DockPanel.Dock="Right"
@@ -230,7 +276,7 @@
                 </DockPanel>
 
                 <DataGrid x:Name="AttachmentsGrid"
-          Grid.Row="22" Grid.ColumnSpan="2"
+          Grid.Row="23" Grid.ColumnSpan="2"
           AutoGenerateColumns="False"
           IsReadOnly="True"
           CanUserAddRows="False"

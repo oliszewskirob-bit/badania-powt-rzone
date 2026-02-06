@@ -1,4 +1,5 @@
 ﻿Imports System.Globalization
+Imports System.Linq
 Imports System.Windows
 Imports System.Windows.Controls
 
@@ -27,11 +28,13 @@ Public Class AddEventWindow
         ' dopinamy eventy dopiero po starcie
         AddHandler ModalityBox.SelectionChanged, AddressOf Modality_SelectionChanged
         AddHandler ReasonBox.SelectionChanged, AddressOf Reason_SelectionChanged
+        AddHandler EventTypeBox.SelectionChanged, AddressOf EventType_SelectionChanged
 
         ' ładujemy powody (SQLite) dopiero po Loaded
         LoadReasons("CT")
 
         _isReady = True
+        ApplyEventTypeState()
     End Sub
 
     Private Function SelectedModality() As String
@@ -43,7 +46,15 @@ Public Class AddEventWindow
     Private Function SelectedEventType() As String
         Dim item = TryCast(EventTypeBox.SelectedItem, ComboBoxItem)
         If item Is Nothing Then Return "repeat"
-        Return item.Content.ToString()
+        Dim tagValue = TryCast(item.Tag, String)
+        If String.IsNullOrWhiteSpace(tagValue) Then
+            Return "repeat"
+        End If
+        Return tagValue
+    End Function
+
+    Private Function IsContrastExtravasationSelected() As Boolean
+        Return String.Equals(SelectedEventType(), "contrast_extravasation", StringComparison.OrdinalIgnoreCase)
     End Function
 
     Private Sub LoadReasons(modality As String)
@@ -51,6 +62,7 @@ Public Class AddEventWindow
             _reasons = ReasonRepository.GetReasons(modality)
             ReasonBox.ItemsSource = _reasons
             If _reasons.Count > 0 Then ReasonBox.SelectedIndex = 0
+            ApplyEventTypeState()
         Catch ex As Exception
             MessageBox.Show("Błąd wczytania powodów: " & ex.Message)
         End Try
@@ -61,7 +73,49 @@ Public Class AddEventWindow
         LoadReasons(SelectedModality())
     End Sub
 
+    Private Sub EventType_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
+        If Not _isReady Then Return
+        ApplyEventTypeState()
+    End Sub
+
+    Private Sub ApplyEventTypeState()
+        Dim isExtravasation = IsContrastExtravasationSelected()
+
+        If ContrastSection IsNot Nothing Then
+            ContrastSection.Visibility = If(isExtravasation, Visibility.Visible, Visibility.Collapsed)
+        End If
+
+        If isExtravasation Then
+            Dim reason = _reasons.FirstOrDefault(Function(r) r.Name.ToLower().Contains("wynaczynienie kontrastu"))
+            If reason IsNot Nothing Then
+                ReasonBox.SelectedItem = reason
+            End If
+
+            ReasonBox.IsEnabled = False
+            ReasonOtherBox.IsEnabled = False
+            ReasonOtherBox.Text = ""
+        Else
+            ReasonBox.IsEnabled = True
+            Reason_SelectionChanged(Me, Nothing)
+
+            ContrastCannulaBox.Text = ""
+            ContrastTypeBox.Text = ""
+            ContrastFlowBox.Text = ""
+            ContrastVolumeBox.Text = ""
+            ContrastVisibleBox.SelectedItem = Nothing
+            WardNotifiedBox.SelectedItem = Nothing
+            PatientInstructionsBox.SelectedItem = Nothing
+            ContrastAdditionalInfoBox.Text = ""
+        End If
+    End Sub
+
     Private Sub Reason_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
+        If IsContrastExtravasationSelected() Then
+            ReasonOtherBox.IsEnabled = False
+            ReasonOtherBox.Text = ""
+            Return
+        End If
+
         Dim selected = TryCast(ReasonBox.SelectedItem, ReasonItem)
         If selected Is Nothing Then
             ReasonOtherBox.IsEnabled = False
@@ -107,9 +161,27 @@ Public Class AddEventWindow
 
         Dim selectedReason = CType(ReasonBox.SelectedItem, ReasonItem)
         Dim isOther = selectedReason.Name.ToLower().Contains("inne")
-        If isOther AndAlso String.IsNullOrWhiteSpace(ReasonOtherBox.Text) Then
+        If Not IsContrastExtravasationSelected() AndAlso isOther AndAlso String.IsNullOrWhiteSpace(ReasonOtherBox.Text) Then
             ErrorText.Text = "Dla 'Inne' doprecyzuj powód."
             Return
+        End If
+
+        Dim isExtravasation = IsContrastExtravasationSelected()
+        Dim contrastVisible = GetYesNoValue(ContrastVisibleBox)
+        Dim wardNotified = GetYesNoValue(WardNotifiedBox)
+        Dim patientInstructions = GetYesNoValue(PatientInstructionsBox)
+
+        If isExtravasation Then
+            If String.IsNullOrWhiteSpace(ContrastCannulaBox.Text) OrElse
+               String.IsNullOrWhiteSpace(ContrastTypeBox.Text) OrElse
+               String.IsNullOrWhiteSpace(ContrastFlowBox.Text) OrElse
+               String.IsNullOrWhiteSpace(ContrastVolumeBox.Text) OrElse
+               Not contrastVisible.HasValue OrElse
+               Not wardNotified.HasValue OrElse
+               Not patientInstructions.HasValue Then
+                ErrorText.Text = "Uzupełnij wszystkie pola wymagane dla wynaczynienia kontrastu."
+                Return
+            End If
         End If
 
         StaffRepository.EnsureExists("doctor", DoctorBox.Text)
@@ -129,7 +201,16 @@ Public Class AddEventWindow
             .Nurse = NurseBox.Text.Trim(),
             .ReasonId = selectedReason.Id,
             .ReasonOtherText = ReasonOtherBox.Text.Trim(),
-            .Description = DescBox.Text.Trim()
+            .Description = DescBox.Text.Trim(),
+            .IsContrastExtravasation = isExtravasation,
+            .ContrastCannula = If(isExtravasation, ContrastCannulaBox.Text.Trim(), ""),
+            .ContrastType = If(isExtravasation, ContrastTypeBox.Text.Trim(), ""),
+            .ContrastFlow = If(isExtravasation, ContrastFlowBox.Text.Trim(), ""),
+            .ContrastVolume = If(isExtravasation, ContrastVolumeBox.Text.Trim(), ""),
+            .ContrastVisible = If(isExtravasation, contrastVisible, Nothing),
+            .WardNotified = If(isExtravasation, wardNotified, Nothing),
+            .PatientInstructions = If(isExtravasation, patientInstructions, Nothing),
+            .ContrastAdditionalInfo = If(isExtravasation, ContrastAdditionalInfoBox.Text.Trim(), "")
         }
 
         Try
@@ -140,5 +221,15 @@ Public Class AddEventWindow
             ErrorText.Text = "Błąd zapisu: " & ex.Message
         End Try
     End Sub
+
+    Private Function GetYesNoValue(box As ComboBox) As Boolean?
+        If box Is Nothing OrElse box.SelectedItem Is Nothing Then Return Nothing
+        Dim item = TryCast(box.SelectedItem, ComboBoxItem)
+        If item Is Nothing OrElse item.Content Is Nothing Then Return Nothing
+        Dim value = item.Content.ToString().Trim().ToLowerInvariant()
+        If value = "tak" Then Return True
+        If value = "nie" Then Return False
+        Return Nothing
+    End Function
 
 End Class

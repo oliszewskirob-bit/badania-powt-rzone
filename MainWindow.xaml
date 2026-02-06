@@ -44,7 +44,7 @@
 
                 <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="Filtr:"/>
                 <ComboBox x:Name="FilterBox" Width="140" SelectionChanged="Filter_Changed">
-                    <ComboBoxItem Content="ALL" IsSelected="True"/>
+                    <ComboBoxItem Content="Wszystkie" Tag="ALL" IsSelected="True"/>
                     <ComboBoxItem Content="CT"/>
                     <ComboBoxItem Content="MR"/>
                 </ComboBox>
@@ -53,10 +53,10 @@
                 <ComboBox x:Name="StatusFilterBox"
           Width="140"
           SelectionChanged="Filter_Changed">
-                    <ComboBoxItem Content="ALL" IsSelected="True"/>
-                    <ComboBoxItem Content="new"/>
-                    <ComboBoxItem Content="in_progress"/>
-                    <ComboBoxItem Content="closed"/>
+                    <ComboBoxItem Content="Wszystkie" Tag="ALL" IsSelected="True"/>
+                    <ComboBoxItem Content="Nowe" Tag="new"/>
+                    <ComboBoxItem Content="W trakcie" Tag="in_progress"/>
+                    <ComboBoxItem Content="Zamknięte" Tag="closed"/>
                 </ComboBox>
 
                 <TextBlock VerticalAlignment="Center" Margin="16,0,8,0" Text="Szukaj:"/>
@@ -129,7 +129,7 @@
                                     Binding="{Binding Modality}"
                                     Width="60"/>
                 <DataGridTextColumn Header="Typ"
-                                    Binding="{Binding EventType}"
+                                    Binding="{Binding EventTypeLabel}"
                                     Width="90"/>
                 <DataGridTextColumn Header="Aparat"
                                     Binding="{Binding Device}"
@@ -147,7 +147,7 @@
                                     Binding="{Binding ReasonOtherText}"
                                     Width="170"/>
                 <DataGridTextColumn Header="Status"
-                                    Binding="{Binding Status}"
+                                    Binding="{Binding StatusLabel}"
                                     Width="90"/>
                 <DataGridTextColumn Header="Utw."
                                     Binding="{Binding CreatedAt, StringFormat=\{0:yyyy-MM-dd HH:mm\}}"
@@ -177,7 +177,7 @@
         <!-- Dół -->
         <TextBlock Grid.Row="2"
                    Foreground="Gray"
-                   Text="Tip: dwuklik na wierszu – w następnym kroku zrobimy podgląd/edycję/statusy."/>
+                   Text="Wskazówka: dwuklik na wierszu – podgląd, edycja i zmiana statusu."/>
     </Grid>
 
 </Window>

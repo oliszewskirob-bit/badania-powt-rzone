@@ -33,8 +33,13 @@ Public Class MainWindow
         ' FilterBox (CT/MR/ALL)
         If FilterBox IsNot Nothing AndAlso FilterBox.SelectedItem IsNot Nothing Then
             Dim modItem = TryCast(FilterBox.SelectedItem, ComboBoxItem)
-            If modItem IsNot Nothing AndAlso modItem.Content IsNot Nothing Then
-                modality = modItem.Content.ToString()
+            If modItem IsNot Nothing Then
+                Dim tagValue = TryCast(modItem.Tag, String)
+                If Not String.IsNullOrWhiteSpace(tagValue) Then
+                    modality = tagValue
+                ElseIf modItem.Content IsNot Nothing Then
+                    modality = modItem.Content.ToString()
+                End If
             ElseIf TypeOf FilterBox.SelectedItem Is String Then
                 modality = FilterBox.SelectedItem.ToString()
             End If
@@ -43,8 +48,13 @@ Public Class MainWindow
         ' StatusFilterBox (new/in_progress/closed/ALL)
         If StatusFilterBox IsNot Nothing AndAlso StatusFilterBox.SelectedItem IsNot Nothing Then
             Dim stItem = TryCast(StatusFilterBox.SelectedItem, ComboBoxItem)
-            If stItem IsNot Nothing AndAlso stItem.Content IsNot Nothing Then
-                status = stItem.Content.ToString()
+            If stItem IsNot Nothing Then
+                Dim tagValue = TryCast(stItem.Tag, String)
+                If Not String.IsNullOrWhiteSpace(tagValue) Then
+                    status = tagValue
+                ElseIf stItem.Content IsNot Nothing Then
+                    status = stItem.Content.ToString()
+                End If
             ElseIf TypeOf StatusFilterBox.SelectedItem Is String Then
                 status = StatusFilterBox.SelectedItem.ToString()
             End If
@@ -86,7 +96,7 @@ Public Class MainWindow
             Dim closedCnt = If(counts.ContainsKey("closed"), counts("closed"), 0)
 
             If CountAllText IsNot Nothing Then CountAllText.Text = $"Wszystkie: {allCnt}"
-            If CountNewText IsNot Nothing Then CountNewText.Text = $"NEW: {newCnt}"
+            If CountNewText IsNot Nothing Then CountNewText.Text = $"Nowe: {newCnt}"
             If CountInProgressText IsNot Nothing Then CountInProgressText.Text = $"W trakcie: {ipCnt}"
             If CountClosedText IsNot Nothing Then CountClosedText.Text = $"Zamknięte: {closedCnt}"
 

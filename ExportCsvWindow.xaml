@@ -36,8 +36,8 @@
         <!-- Co rozumiesz jako datę -->
         <GroupBox Grid.Row="2" Header="Jakie daty filtrować?" Margin="0,12,0,0">
             <StackPanel Margin="10">
-                <RadioButton x:Name="DateFieldFirstPart" Content="Data I części badania (FirstPartDateTime)" IsChecked="True"/>
-                <RadioButton x:Name="DateFieldCreated" Content="Data utworzenia wpisu (CreatedAt)" Margin="0,6,0,0"/>
+                <RadioButton x:Name="DateFieldFirstPart" Content="Data I części badania" IsChecked="True"/>
+                <RadioButton x:Name="DateFieldCreated" Content="Data utworzenia wpisu" Margin="0,6,0,0"/>
             </StackPanel>
         </GroupBox>
 
@@ -53,17 +53,17 @@
 
                 <TextBlock Text="Modalność:" VerticalAlignment="Center"/>
                 <ComboBox x:Name="ModalityBox" Grid.Column="1" Width="160" SelectedIndex="0">
-                    <ComboBoxItem Content="ALL" IsSelected="True"/>
+                    <ComboBoxItem Content="Wszystkie" Tag="ALL" IsSelected="True"/>
                     <ComboBoxItem Content="CT"/>
                     <ComboBoxItem Content="MR"/>
                 </ComboBox>
 
                 <TextBlock Grid.Column="2" Text="Status:" VerticalAlignment="Center" Margin="12,0,0,0"/>
                 <ComboBox x:Name="StatusBox" Grid.Column="3" Width="160" SelectedIndex="0">
-                    <ComboBoxItem Content="ALL" IsSelected="True"/>
-                    <ComboBoxItem Content="new"/>
-                    <ComboBoxItem Content="in_progress"/>
-                    <ComboBoxItem Content="closed"/>
+                    <ComboBoxItem Content="Wszystkie" Tag="ALL" IsSelected="True"/>
+                    <ComboBoxItem Content="Nowe" Tag="new"/>
+                    <ComboBoxItem Content="W trakcie" Tag="in_progress"/>
+                    <ComboBoxItem Content="Zamknięte" Tag="closed"/>
                 </ComboBox>
             </Grid>
         </GroupBox>

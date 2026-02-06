@@ -23,6 +23,15 @@ Public Module RepeatEventDetailsRepository
     COALESCE(e.ReasonOtherText, '') AS ReasonOtherText,
     COALESCE(e.Status, 'new') AS Status,
     COALESCE(e.Description, '') AS Description,
+    COALESCE(e.IsContrastExtravasation,0) AS IsContrastExtravasation,
+    COALESCE(e.ContrastCannula,'') AS ContrastCannula,
+    COALESCE(e.ContrastType,'') AS ContrastType,
+    COALESCE(e.ContrastFlow,'') AS ContrastFlow,
+    COALESCE(e.ContrastVolume,'') AS ContrastVolume,
+    COALESCE(e.ContrastVisible,0) AS ContrastVisible,
+    COALESCE(e.WardNotified,0) AS WardNotified,
+    COALESCE(e.PatientInstructions,0) AS PatientInstructions,
+    COALESCE(e.ContrastAdditionalInfo,'') AS ContrastAdditionalInfo,
     e.CreatedAt,
     COALESCE(e.CreatedBy, '') AS CreatedBy
 FROM RepeatEvents e
@@ -34,13 +43,16 @@ LIMIT 1;"
                 Using r = cmd.ExecuteReader()
                     If Not r.Read() Then Return Nothing
 
-                    Dim dt1 As DateTime = DateTime.Parse(r.GetString(7), Nothing, DateTimeStyles.RoundtripKind)
-                    Dim created As DateTime = DateTime.Parse(r.GetString(15), Nothing, DateTimeStyles.RoundtripKind)
+                    Dim dt1 As DateTime = ParseDateTimeOrMin(r.GetString(7))
+                    Dim created As DateTime = ParseDateTimeOrMin(r.GetString(24))
+                    Dim eventType = r.GetString(2)
+                    Dim status = r.GetString(13)
 
                     Return New RepeatEventDetails With {
                         .Id = r.GetInt32(0),
                         .Modality = r.GetString(1),
-                        .EventType = r.GetString(2),
+                        .EventType = eventType,
+                        .EventTypeLabel = EventTypeLabel(eventType),
                         .Device = r.GetString(3),
                         .PatientName = r.GetString(4),
                         .PatientId = r.GetString(5),
@@ -51,10 +63,20 @@ LIMIT 1;"
                         .Nurse = r.GetString(10),
                         .ReasonName = r.GetString(11),
                         .ReasonOtherText = r.GetString(12),
-                        .Status = r.GetString(13),
+                        .Status = status,
+                        .StatusLabel = StatusLabel(status),
                         .Description = r.GetString(14),
+                        .IsContrastExtravasation = (r.GetInt32(15) = 1),
+                        .ContrastCannula = r.GetString(16),
+                        .ContrastType = r.GetString(17),
+                        .ContrastFlow = r.GetString(18),
+                        .ContrastVolume = r.GetString(19),
+                        .ContrastVisible = (r.GetInt32(20) = 1),
+                        .WardNotified = (r.GetInt32(21) = 1),
+                        .PatientInstructions = (r.GetInt32(22) = 1),
+                        .ContrastAdditionalInfo = r.GetString(23),
                         .CreatedAt = created,
-                        .CreatedBy = r.GetString(16)
+                        .CreatedBy = r.GetString(25)
                     }
                 End Using
             End Using

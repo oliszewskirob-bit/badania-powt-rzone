@@ -49,6 +49,7 @@ $"SELECT
     COALESCE(r.Name,'') AS ReasonName,
     COALESCE(e.ReasonOtherText,'') AS ReasonOtherText,
     COALESCE(e.Status,'new') AS Status,
+    COALESCE(e.IsContrastExtravasation,0) AS IsContrastExtravasation,
     e.CreatedAt,
     COALESCE(e.CreatedBy,'') AS CreatedBy
 FROM RepeatEvents e
@@ -59,22 +60,28 @@ ORDER BY e.FirstPartDateTime DESC;"
                 Using r = cmd.ExecuteReader()
                     While r.Read()
 
-                        Dim dt1 = DateTime.Parse(r.GetString(1), Nothing, DateTimeStyles.RoundtripKind).ToLocalTime()
-                        Dim created = DateTime.Parse(r.GetString(10), Nothing, DateTimeStyles.RoundtripKind).ToLocalTime()
+                        Dim dt1 = ParseDateTimeOrMin(r.GetString(1))
+                        Dim created = ParseDateTimeOrMin(r.GetString(11))
+                        Dim isExtravasation = (r.GetInt32(10) = 1)
+                        Dim eventType = r.GetString(3)
+                        Dim status = r.GetString(9)
 
                         items.Add(New RepeatEventListItem With {
                             .Id = r.GetInt32(0),
                             .FirstPartDateTime = dt1,
                             .Modality = r.GetString(2),
-                            .EventType = r.GetString(3),
+                            .EventType = eventType,
+                            .EventTypeLabel = EventTypeLabel(eventType),
                             .Device = r.GetString(4),
                             .PatientName = r.GetString(5),
                             .PatientId = r.GetString(6),
                             .ReasonName = r.GetString(7),
                             .ReasonOtherText = r.GetString(8),
-                            .Status = r.GetString(9),
+                            .Status = status,
+                            .StatusLabel = StatusLabel(status),
                             .CreatedAt = created,
-                            .CreatedBy = r.GetString(11)
+                            .CreatedBy = r.GetString(12),
+                            .IsContrastExtravasation = isExtravasation
                         })
                     End While
                 End Using
